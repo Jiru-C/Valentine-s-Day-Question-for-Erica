@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Will You Be My Valentine?</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sacramento&display=swap">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="container">
+        <div id="image-container"></div>
+        <div id="text-container">
+            <div id="question">Will you be my valentine?</div>
+            <div id="options">
+                <button id="yes-button" onclick="selectOption('yes')">Yes</button>
+                <button id="no-button" onclick="selectOption('no')">No</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
+<script>
+// Function to handle button click events
+function selectOption(option) {
+    if (option === 'yes') {
+        // Flash rainbow colors and then display cat-heart with text
+        flashRainbowColors(function() {
+            document.getElementById('question').style.display = 'none'; // Hide the question
+            displayCatHeart(); // Display the cat-heart.gif with text
+        });
+    } else if (option === 'no') {
+        document.getElementById('no-button').innerText = 'You sure?'; 
+        var yesButton = document.getElementById('yes-button');
+        var currentFontSize = window.getComputedStyle(yesButton).getPropertyValue('font-size');
+        var newSize = parseFloat(currentFontSize) * 2; 
+        yesButton.style.fontSize = newSize + 'px';
+    }
+}
+
+function flashRainbowColors(callback) {
+    var colors = ['#ff0000', '#ff7f00', '#ffff00', '#00ff00', '#0000ff', '#4b0082', '#9400d3'];
+    var i = 0;
+    var interval = setInterval(function() {
+        document.body.style.backgroundColor = colors[i];
+        i = (i + 1) % colors.length;
+    }, 200);
+    setTimeout(function() {
+        clearInterval(interval);
+        document.body.style.backgroundColor = '';
+        if (callback) {
+            callback();
+        }
+    }, 2000);
+}
+
+function displayCatHeart() {
+    document.getElementById('image-container').innerHTML = '';  // Clear previous content
+    var imageContainer = document.getElementById('image-container');
+    var catHeartImage = new Image();
+    catHeartImage.src = 'melody-heart.gif';
+    catHeartImage.alt = 'Cat Heart';
+    catHeartImage.onload = function() {
+        imageContainer.appendChild(catHeartImage);
+        document.getElementById('options').style.display = 'none';
+
+        // Display text over the image
+        var loveText = document.createElement('div');
+        loveText.innerHTML = 'YAYYY! I LOVE YOU';
+        loveText.style.position = 'absolute';
+        loveText.style.top = '10%';
+        loveText.style.left = '50%';
+        loveText.style.transform = 'translate(-50%, -50%)';
+        loveText.style.fontSize = '36px';
+        loveText.style.color = 'white';
+        loveText.style.fontFamily = 'Times New Roman, serif';
+        loveText.style.textShadow = '2px 2px 5px rgba(0, 0, 0, 0.7)';
+        imageContainer.appendChild(loveText);
+    };
+}
+</script>
